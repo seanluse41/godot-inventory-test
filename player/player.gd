@@ -3,12 +3,14 @@ extends CharacterBody3D
 @export var inventory_data: InventoryData
 @export var equip_inventory_data: InventoryDataEquip
  
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const SPEED = 6.0
+const JUMP_VELOCITY = 5.0
+const SPRINT_SPEED = 12.0
  
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var health: int = 5
+var isSprinting: bool = false
 
 signal toggle_inventory()
  
@@ -35,6 +37,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if Input.is_action_just_pressed("interact"):
 		interact()
+	
+	if Input.is_action_pressed("sprint"):
+		isSprinting = true
+	else:
+		isSprinting = false
  
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -50,8 +57,12 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "forward", "back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		if isSprinting:
+			velocity.x = direction.x * SPRINT_SPEED
+			velocity.z = direction.z * SPRINT_SPEED
+		else:
+			velocity.x = direction.x * SPEED
+			velocity.z = direction.z * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)

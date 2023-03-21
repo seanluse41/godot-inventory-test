@@ -1,7 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4idc5nvekw8j"]
+[gd_scene load_steps=10 format=3 uid="uid://c4idc5nvekw8j"]
 
 [ext_resource type="Script" path="res://item/pickup/pickup.gd" id="1_3tugd"]
 [ext_resource type="Texture2D" uid="uid://c8yru5hg40qi0" path="res://item/item_atlas.tres" id="1_xi7yk"]
+[ext_resource type="Script" path="res://item/item_data.gd" id="2_7wrpu"]
+[ext_resource type="Script" path="res://inventory/slot_data.gd" id="2_v40i1"]
+[ext_resource type="Texture2D" uid="uid://bmj27elabavdt" path="res://item/#1 - Transparent Icons.png" id="3_mpogo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdg5m"]
+atlas = ExtResource("3_mpogo")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="Resource" id="Resource_vrrxx"]
+script = ExtResource("2_7wrpu")
+name = "Default"
+description = "Oops"
+stackable = false
+texture = SubResource("AtlasTexture_wdg5m")
+
+[sub_resource type="Resource" id="Resource_m2iqr"]
+script = ExtResource("2_v40i1")
+item_data = SubResource("Resource_vrrxx")
+quantity = 1
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_erdwm"]
 radius = 0.34072
@@ -10,6 +29,7 @@ radius = 0.34072
 collision_layer = 0
 lock_rotation = true
 script = ExtResource("1_3tugd")
+slot_data = SubResource("Resource_m2iqr")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
