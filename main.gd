@@ -17,6 +17,8 @@ func _ready() -> void:
 		node.toggle_inventory.connect(toggle_inventory_interface)
 
 func toggle_inventory_interface(external_inventory_owner = null) -> void:
+	if external_inventory_owner and external_inventory_owner.is_in_group("chest"):
+		external_inventory_owner.toggleChest()
 	inventory_interface.visible = not inventory_interface.visible
 	
 	if inventory_interface.visible:

@@ -17,6 +17,8 @@ func _physics_process(delta: float) -> void:
 	
 	if external_inventory_owner \
 	and external_inventory_owner.global_position.distance_to(PlayerManager.get_global_position()) > 4:
+		if external_inventory_owner.is_in_group("chest"):
+			external_inventory_owner.toggleChest()
 		force_close.emit()
 
 func set_player_inventory_data(inventory_data: InventoryData) -> void:
@@ -45,7 +47,6 @@ func clear_external_inventory() -> void:
 		
 		inventory_data.inventory_interact.disconnect(on_inventory_interact)
 		external_inventory.clear_inventory_data(inventory_data)
-		
 		external_inventory.hide()
 		external_inventory_owner = null
 
